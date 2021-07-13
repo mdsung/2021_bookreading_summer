@@ -2,11 +2,14 @@
 import numpy as np
 from chapter4_twolayernet import TwoLayerNet
 from dataset import load_mnist
+import time
+
+tic = time.clock()
 
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 network = TwoLayerNet(input_size = 784, hidden_size = 500, output_size = 10)
 
-train_lost_list = []
+train_loss_list = []
 train_acc_list = []
 test_acc_list = []
 
@@ -28,7 +31,7 @@ for i in range(ITER_NUM):
         network.params[key] -= LEARNING_RATE * grad[key]
         
     loss = network.loss(x_batch, t_batch)
-    train_lost_list.append(loss)
+    train_loss_list.append(loss)
     
     if i % iter_per_epoch == 0:
         train_acc = network.accuracy(x_train, t_test)
@@ -36,3 +39,16 @@ for i in range(ITER_NUM):
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
         print(f"train acc, test acc | {train_acc}, {test_acc}")
+
+toc = time.clock()
+print(toc - tic)
+
+import pickle
+with open('train_acc_list.pickle', "wb") as f:
+    pickle.dump(train_acc_list, f, -1)
+
+with open('test_acc_list.pickle', "wb") as f:
+    pickle.dump(test_acc_list, f, -1)
+
+with open('train_loss_list.pickle', "wb") as f:
+    pickle.dump(train_loss_list, f, -1)
