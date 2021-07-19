@@ -71,7 +71,7 @@ class Affine:
         
     def forward(self, x):
         self.x = x
-        out = np.out(x, self.W) + self.b
+        out = np.dot(x, self.W) + self.b
         return out
     
     def backward(self, dout):

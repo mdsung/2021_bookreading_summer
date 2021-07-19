@@ -50,7 +50,7 @@ class TwoLayerNet:
     def gradient(self, x, t):
         self.loss(x, t)
         dout = 1
-        dout = self.lastLayer.backend(dout)
+        dout = self.lastLayer.backward(dout)
         
         layers = list(self.layers.values())
         layers.reverse()
