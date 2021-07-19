@@ -1,19 +1,18 @@
-#%%
 import numpy as np
-from chapter4_twolayernet import TwoLayerNet
+from chapter5_twolayernet import TwoLayerNet
 from dataset import load_mnist
 import time
 
-tic = time.clock()
+tic = time.process_time()
 
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
-network = TwoLayerNet(input_size = 784, hidden_size = 50, output_size = 10)
+network = TwoLayerNet(input_size = 784, hidden_size = 500, output_size = 10)
 
 train_loss_list = []
 train_acc_list = []
 test_acc_list = []
 
-ITER_NUM = 1000
+ITER_NUM = 10000
 TRAIN_SIZE = x_train.shape[0]
 BATCH_SIZE = 100
 LEARNING_RATE = 0.1
@@ -25,7 +24,7 @@ for i in range(ITER_NUM):
     x_batch = x_train[batch_mask]
     t_batch = t_train[batch_mask]
     
-    grad = network.numerical_gradient(x_batch, t_batch)
+    grad = network.gradient(x_batch, t_batch)
     
     for key in ('W1', 'b1', 'W2', 'b2'):
         network.params[key] -= LEARNING_RATE * grad[key]
@@ -40,7 +39,7 @@ for i in range(ITER_NUM):
         test_acc_list.append(test_acc)
         print(f"train acc, test acc | {train_acc}, {test_acc}")
 
-toc = time.clock()
+toc = time.process_time()
 print(toc - tic)
 
 import pickle
