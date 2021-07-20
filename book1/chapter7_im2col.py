@@ -16,7 +16,8 @@ def im2col(input_data, filter_h, filter_w, stride = 1, pad = 0):
         for x in range(filter_w):
             x_max = x + stride*out_w
             col[:, :, y, x, :, :] = img[:, :, y:y_max:stride, x:x_max:stride]
-    col = col.transpose[0, 4, 5, 1, 2 ,3].reshape[N * out_h * out_w, -1]
+    col = col.transpose(0, 4, 5, 1, 2 ,3).reshape(N * out_h * out_w, -1) # shape: (N * out_h * out_w, C* filter_h * filter_w)
+    return col
 
 def col2im(col, input_shape, filter_h, filter_w, stride=1, pad=0):
     N, C, H, W = input_shape
